@@ -3,8 +3,6 @@ package objectmodeltests;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import com.esotericsoftware.kryo.serializers.CollectionSerializer;
-import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -33,9 +31,9 @@ public class TestObjectModel1 {
 
         List<Supervisor> supers = new ArrayList<Supervisor>();
         for (int i = 0; i < numOfSupervisor; i++) {
-            supers.add(new Supervisor("Joe Johnson", 20 + (i % 29)));
+            supers.add(new Supervisor("Joe Johnson" + Integer.toString(i), 20 + (i % 29)));
             for(int j =0; j < numOfEmployee; j++) {
-                supers.get(i).addEmp(new Employee("Steve Stevens", 20 + ((i + j) % 29)));
+                supers.get(i).addEmp(new Employee("Steve Stevens" + Integer.toString(i) + Integer.toString(j), 20 + ((i + j) % 29)));
             }
         }
         System.out.println(supers.get(0).myGuys.size());
@@ -51,11 +49,6 @@ public class TestObjectModel1 {
         kryo.register(Employee.class);
         kryo.register(Supervisor.class);
         kryo.register(supers.getClass());
-        kryo.register(Arrays.asList().getClass(), new CollectionSerializer() {
-            protected Collection create (Kryo kryo, Input input, Class<Collection> type) {
-                return new ArrayList();
-            }
-        });
 
         Output output = new Output(new FileOutputStream("testfile", false));
         kryo.writeObject(output, supers);

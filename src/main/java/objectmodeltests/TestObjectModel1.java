@@ -29,6 +29,12 @@ public class TestObjectModel1 {
 
         long startTime = System.currentTimeMillis();
 
+        String temp = "this is soooooo cool";
+        String temp2 = "this";
+        String temp3;
+        temp3 = temp;
+        temp=temp2=temp3=null;
+
         List<Supervisor> supers = new ArrayList<Supervisor>();
         for (int i = 0; i < numOfSupervisor; i++) {
             supers.add(new Supervisor("Joe Johnson" + Integer.toString(i), 20 + (i % 29)));
